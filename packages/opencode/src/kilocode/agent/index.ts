@@ -18,6 +18,7 @@ import PROMPT_DEBUG from "../../agent/prompt/debug.txt"
 import PROMPT_ORCHESTRATOR from "../../agent/prompt/orchestrator.txt"
 import PROMPT_ASK from "../../agent/prompt/ask.txt"
 import PROMPT_EXPLORE from "../../agent/prompt/explore.txt"
+import PROMPT_SHERLOCK from "../../agent/prompt/sherlock.txt" // kilocode_change
 
 const mermaidClients = new Set(["vscode", "jetbrains"])
 
@@ -655,12 +656,32 @@ export function patchAgents(
       askEditGuard(),
       denies(user),
     ),
-    mode: "primary",
-    native: true,
-  }
+     mode: "primary",
+     native: true,
+   }
 
-  hardenSystemAgents(agents)
-}
+   // Add sherlock agent
+   agents.sherlock = {
+     name: "sherlock",
+     description: "Systematic debugging agent that uses deductive reasoning to investigate, diagnose, and fix software issues.",
+     prompt: PROMPT_SHERLOCK,
+     options: {},
+     permission: Permission.merge(
+       defaults,
+       Permission.fromConfig({
+         question: "allow",
+         suggest: "allow",
+         plan_enter: "allow",
+         semantic_search: "allow",
+       }),
+       user,
+     ),
+     mode: "primary",
+     native: true,
+   }
+
+   hardenSystemAgents(agents)
+ }
 
 export const RemoveError = NamedError.create("AgentRemoveError", {
   name: Schema.String,
