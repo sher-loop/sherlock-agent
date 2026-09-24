@@ -35,7 +35,7 @@ bun link
 bun link @kilocode/cli
 
 # 5. Create the sherlock wrapper (one-time)
-echo '@echo off && kilo --agent sherlock %*' > "$env:APPDATA\npm\sherlock.cmd"
+echo '@echo off && kilo run --agent sherlock %*' > "$env:APPDATA\npm\sherlock.cmd"
 ```
 
 ### Usage
@@ -48,13 +48,6 @@ sherlock "debug why my API returns 404"
 sherlock "investigate slow query in production logs"
 ```
 
-### Verify the agent is registered
-
-```bash
-kilo agent list
-# Should show: sherlock (primary)
-```
-
 ## Project structure
 
 | Path | Purpose |
@@ -63,7 +56,7 @@ kilo agent list
 | `packages/opencode/src/kilocode/agent/index.ts` | Native agent registration (`agents.sherlock`) |
 | `.changeset/sherlock-agent.md` | Changeset for release notes |
 | `~/.kilocode/agent/sherlock.md` | Global markdown agent definition (frontmatter-based) |
-| `sherlock.cmd` | Standalone CLI wrapper (`kilo --agent sherlock %*`) |
+| `sherlock.cmd` | Standalone CLI wrapper (`kilo run --agent sherlock %*`) |
 
 ## Upstream sync
 
